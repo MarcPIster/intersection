@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+import sys
+import math
+
+
+def print_usage():
+    usage = open("src/usage.txt", "r")
+    print(usage.read())
+    sys.exit(0)
+
+def angleintorfloat(angle):
+    try:
+        x = int(angle)
+        if (x == angle):
+            return 1
+        else:
+            return 2
+    except:
+        return 3
+
+
+def calc_entrance_and_exit_point(point, vector, time):
+    ind = 0
+    point_1 = []
+
+    for i in vector:
+        if (i == 0):
+            point_1.append(point[ind])
+        else:
+            point_1.append((i * float(time)) + point[ind])
+        ind += 1
+    return point_1
+
+def calc_if_cylinder_is_infite(vector, point, radius):
+    if ((point[0] <= radius and point[0] >= 0) and (point[1] <= radius and point[0] >= 0)):
+        if (vector[0] == 0 and vector[1] == 0):
+            return 1
+
+def print_sphere(radius, point, vector, intersections, stats):
+    print("Sphere of radius " + str(int(radius)))
+    print("Line passing through the point (" + str(int(point[0])) + ", " + str(int(point[1])) + ", " + str(
+        int(point[2])) + \
+          ") and parallel to the vector (" + str(int(vector[0])) + ", " + str(int(vector[1])) + ", " + str(
+        int(vector[2])) + ")")
+    if intersections >= 1:
+        if intersections == 1:
+            print(str(intersections) + " intersection point:")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[0])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+        elif intersections == 2:
+            print(str(intersections) + " intersection points:")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[0])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[1])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+    else:
+        print("No intersection point.")
+
+
+def print_cylinder(radius, point, vector, intersections, stats):
+    print("Cylinder of radius " + str(int(radius)))
+    print("Line passing through the point (" + str(int(point[0])) + ", " + str(int(point[1])) + ", " + str(
+        int(point[2])) + \
+          ") and parallel to the vector (" + str(int(vector[0])) + ", " + str(int(vector[1])) + ", " + str(
+        int(vector[2])) + ")")
+    if (calc_if_cylinder_is_infite(vector, point, radius) == 1):
+        print("There is an infinite number of intersection points.")
+    elif intersections >= 1:
+        if intersections == 1:
+            print(str(intersections) + " intersection point:")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[0])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+        elif intersections == 2:
+            print(str(intersections) + " intersection points:")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[0])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[1])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+    else:
+        print("No intersection point.")
+
+
+def print_cone(angle, point, vector, intersections, stats):
+    check = angleintorfloat(angle)
+    if (check == 1):
+        print("Cone with a " + str(int(angle)) + " degree angle")
+    else:
+        print("Cone with a " + str(angle) + " degree angle")
+    print("Line passing through the point (" + str(point[0]) + ", " + str(point[1]) + ", " + str(point[2]) + \
+          ") and parallel to the vector (" + str(vector[0]) + ", " + str(vector[1]) + ", " + str(vector[2]) + ")")
+    if (point[0] == 0 and point[1] == 0 and vector[0] == 0 and vector[1] == 0):
+        print("There is an infinite number of intersection points.")
+    elif intersections >= 1:
+        if intersections == 1:
+            print(str(intersections) + " intersection point:")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[0])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+        elif intersections == 2:
+            print(str(intersections) + " intersection points:")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[0])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+            point_1 = calc_entrance_and_exit_point(point, vector, stats[1])
+            print("(" + '{:5}'.format('{:.3f}'.format(point_1[0])) + ", " + '{:5}'.format(
+                '{:.3f}'.format(point_1[1])) + ", " + '{:5}'.format('{:.3f}'.format(point_1[2])) + ")")
+    else:
+        print("No intersection point.")
+
+
+def sphere_calc_hitpoint(radius, point, vector):
+    a = math.pow(vector[0], 2) + math.pow(vector[1], 2) + math.pow(vector[2], 2)
+    b = 2 * vector[0] * point[0] + 2 * vector[0] * point[0] + 2 * vector[1] * point[1] + 2 * vector[2] * point[2]
+    c = math.pow(point[0], 2) + math.pow(point[1], 2) + math.pow(point[2], 2) - math.pow(radius, 2)
+    try:
+        b_sqrt = math.sqrt(math.pow(b, 2) - 4 * a * c)
+        returned_1 = (-b + b_sqrt) / (2 * a)
+        returned_2 = (-b - b_sqrt) / (2 * a)
+        if (returned_1 >= 0 and returned_2 >= 0):
+            if (returned_1 <= returned_2 and b_sqrt > 0):
+                return (returned_1, returned_2)
+            elif (returned_1 <= returned_2 and b_sqrt == 0):
+                return (returned_1, -1)
+            elif (returned_2 <= returned_1 and b_sqrt == 0):
+                return (returned_2, -1)
+        elif (returned_1 >= 0):
+            return (returned_1, -1)
+        elif (returned_2 >= 0):
+            return (returned_2, -1)
+        else:
+            return (-1, -1)
+
+    except ValueError:
+        return (-1, -1)
+    except ZeroDivisionError:
+        return (-1, -1)
+
+
+def sphere(argv):
+    radius = float(argv[8])
+    point = [float(argv[2]), float(argv[3]), float(argv[4])]
+    vector = [float(argv[5]), float(argv[6]), float(argv[7])]
+    intersec_stats = sphere_calc_hitpoint(radius, point, vector)
+    if (intersec_stats[0] == -1 and intersec_stats[1] == -1):
+        print_sphere(radius, point, vector, 0, intersec_stats)
+    elif (intersec_stats[1] == -1):
+        print_sphere(radius, point, vector, 1, intersec_stats)
+    else:
+        print_sphere(radius, point, vector, 2, intersec_stats)
+
+
+def cylinder_calc_hitpoint(radius, point, vector):
+    a = math.pow(vector[0], 2) + math.pow(vector[1], 2)
+    b = 2 * vector[0] * point[0] + 2 * vector[0] * point[0] + 2 * vector[1] * point[1]
+    c = math.pow(point[0], 2) + math.pow(point[1], 2) - math.pow(radius, 2)
+    try:
+        b_sqrt = math.sqrt(math.pow(b, 2) - 4 * a * c)
+        returned_1 = (-b + b_sqrt) / (2 * a)
+        returned_2 = (-b - b_sqrt) / (2 * a)
+        return (returned_1, returned_2)
+    except ValueError:
+        return (-1, -1)
+    except ZeroDivisionError:
+        return (-1, -1)
+
+
+def cylinder(argv):
+    radius = float(argv[8])
+    point = [int(argv[2]), int(argv[3]), int(argv[4])]
+    vector = [int(argv[5]), int(argv[6]), int(argv[7])]
+    intersec_stats = cylinder_calc_hitpoint(radius, point, vector)
+    if (intersec_stats[0] == -1 and intersec_stats[1] == -1):
+        print_cylinder(radius, point, vector, 0, intersec_stats)
+    elif (intersec_stats[1] == -1):
+        print_cylinder(radius, point, vector, 1, intersec_stats)
+    else:
+        print_cylinder(radius, point, vector, 2, intersec_stats)
+
+
+def cone_calc_hitpoint(radius, point, vector):
+    a = math.pow(vector[0], 2) + math.pow(vector[1], 2) - (math.pow(math.tan(radius * math.pi / 180), 2) * math.pow(vector[2], 2))
+    b = 2 * vector[0] * point[0] + 2 * vector[1] * point[1] - (math.pow(math.tan(radius * math.pi / 180), 2) * 2 * vector[2] * point[2])
+    c = math.pow(point[0], 2) + math.pow(point[1], 2) - (math.pow(math.tan(radius * math.pi / 180), 2) * math.pow(point[2], 2))
+    try:
+        b_sqrt = math.sqrt(math.pow(b, 2) - 4 * a * c)
+        returned_1 = (-b + b_sqrt) / (2 * a)
+        returned_2 = (-b - b_sqrt) / (2 * a)
+        return (returned_1, returned_2)
+
+    except ValueError:
+        return (-1, -1)
+    except ZeroDivisionError:
+        return (-1, -1)
+
+
+def cone(argv):
+    angle = float(argv[8])
+    point = [int(argv[2]), int(argv[3]), int(argv[4])]
+    vector = [int(argv[5]), int(argv[6]), int(argv[7])]
+    intersec_stats = cone_calc_hitpoint(angle, point, vector)
+    if (intersec_stats[0] == -1 and intersec_stats[1] == -1):
+        print_cone(angle, point, vector, 0, intersec_stats)
+    elif (intersec_stats[1] == -1):
+        print_cone(angle, point, vector, 1, intersec_stats)
+    else:
+        print_cone(angle, point, vector, 2, intersec_stats)
+
+
+def get_option(argv):
+    opt = int(argv[1])
+
+    if (opt >= 4 or opt <= 0):
+        sys.exit(84)
+    if opt == 1:
+        sphere(argv)
+    if opt == 2:
+        cylinder(argv)
+    if opt == 3:
+        cone(argv)
+
+
+def check_input(argv):
+    ac = len(argv)
+    check = 1
+    if (ac == 2 and argv[1][0] == '-' and argv[1][1] == 'h'):
+        print_usage()
+    if (ac != 9 and ac != 2):
+        sys.exit(84)
+    try:
+        if (ac == 9):
+            while (check != 8):
+                test = int(argv[check])
+                check += 1
+            if (float(argv[8]) <= 0):
+                print("Last Argument must be positiv, Try ./104intersection -h for more informations")
+                sys.exit(84)
+    except ValueError:
+        print("False Argument, Try ./104intersection -h for more informations")
+        sys.exit(84)
+
+def main(argv):
+    check_input(argv)
+    get_option(argv)
+    sys.exit(0)
+
+
+if __name__ == '__main__':
+    main(sys.argv)
